@@ -8,7 +8,7 @@ include "bufio.m";
     Iobuf: import bufio;
 include "draw.m";
     draw: Draw;
-    Chans, Context, Display, Image, Point, Rect, XRGB32: import draw;
+    Chans, Context, Display, Image, Point, Rect: import draw;
 
 DrawTest: module
 {
