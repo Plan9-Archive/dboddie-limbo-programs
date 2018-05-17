@@ -1,0 +1,97 @@
+Notes on Limbo
+==============
+
+Numeric literals
+----------------
+
+Hexadecimal numbers are prefixed with 16r, as in the following example:
+
+    a := 16rffffffff;
+
+More generally, prefixing a number with <base>r indicates that the value is
+specified in that base:
+
+    b := 4r01230123;    # 6939
+    c := 8r76543210;    # 16434824
+    d := 2r101010;      # 42
+
+Variable shadowing
+------------------
+
+It's quite easy to accidentally shadow variables, as in this example:
+
+    i: int;
+
+    do {
+        i := 123;
+        # ...
+    } while (i == 0);
+
+The i variable is redefined inside the loop and the variable outside the loop
+is never updated.
+
+Methods and Functions in ADTs
+-----------------------------
+
+A function in an abstract data type (ADT) that specifies self in the type
+declaration of its first argument can be used as a method with an instance of
+that type as long as the type has been imported from its parent module:
+
+    bufio := load Bufio Bufio->PATH;
+    Iobuf: import bufio;
+
+    iobuf: ref Iobuf;
+    iobuf = bufio->fopen(sys->fildes(1), Sys->OWRITE);
+    
+    b := array of byte "Hello world!\n";
+    iobuf.write(b, len(b));
+
+Functions that don't include the self annotation in the first type declaration
+are called with the dot notation:
+
+    chans := Chans.mk("R8G8B8");
+
+Case structures
+---------------
+
+The limbo compiler segfaults in case structures where an individual case is
+a function call that returns a string:
+
+    case image.chans.text() {
+    XRGB32.text() =>
+
+In the situation where we don't import the XRGB32 name from the Draw module,
+but instead fully qualify it, the compiler fails to find it:
+
+    case image.chans.text() {
+    Draw->XRGB32.text() =>
+
+It prints this:
+
+    drawtest.b:84: XRGB32 is not declared
+
+
+Libraries
+---------
+
+Draw
+~~~~
+
+The draw-image 2 man page is out of date. Images are created with the following
+attributes (from draw.m):
+
+    r:       Rect;          # rectangle in data area, local coords
+    clipr:   Rect;          # clipping region
+    depth:   int;           # number of bits per pixel
+    chans:   Chans;
+    repl:    int;           # whether data area replicates to tile the plane
+    display: ref Display;   # where Image resides
+    screen:  ref Screen;    # nil if not window
+    iname:   string;
+
+
+Standalone emu programs
+-----------------------
+
+Programs that are packaged using my Standalone/package.py in which the host
+file system is unmounted won't be able to write to files.
