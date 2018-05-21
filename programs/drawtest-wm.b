@@ -18,23 +18,31 @@ DrawTest: module
 # This example's init function requires a valid context to be passed to it.
 # This means that the window manager must be running for 
 
-init(nil: ref Context, args: list of string)
+init(ctxt: ref Context, args: list of string)
 {
     sys = load Sys Sys->PATH;
     draw = load Draw Draw->PATH;
     bufio = load Bufio Bufio->PATH;
 
-    display := draw->Display.allocate(nil);
+    if (ctxt == nil) {
+        sys->print("No valid context supplied. Try running from within wm/wm.\n");
+        exit;
+    }
+    
+    #chans := Chans.mk("R8G8B8"); # Draw->RGB24; # Chans(16r52474241);
+    chans := ctxt.display.image.chans;
 
-    rect := Rect(Point(0, 0), Point(100, 100));
+    # Tuples will work instead of Points in the definition of a Rect instance.
+    rect := ((0, 0), (100, 100));
+    #image := ref Image(rect, rect, 32, chans, 0, ctxt.display, nil, "");
     
     # Create an off-screen image.
-    image := display.newimage(rect, display.image.chans, 0, Draw->Black);
+    image := ctxt.display.newimage(rect, chans, 0, Draw->Black);
 
-    draw_on_image(display, image);
+    draw_on_image(ctxt, image);
 
     # Preview the image on the screen.
-    display.image.draw(image.r, image, display.opaque, Point(0, 0));
+    ctxt.display.image.draw(image.r, image, ctxt.display.opaque, Point(0, 0));
 
     if (len(args) > 1)
         save_image(image, hd tl args); # args[1]
@@ -42,18 +50,17 @@ init(nil: ref Context, args: list of string)
         save_image(image, "");
 }
 
-draw_on_image(display: ref Display, image: ref Image)
+draw_on_image(ctxt: ref Context, image: ref Image)
 {
     # Fill the image with a colour.
-    background := display.rgb(0, 0, 255);
-    image.draw(Rect(Point(10, 10), Point(90, 90)), background, display.opaque, Point(0, 0));
+    background := ctxt.display.rgb(0, 0, 255);
+    # Define an array of points.
+    points := array[4] of {(50, 0), (100, 50), (50, 100), (0, 50)};
 
-    # Draw a filled polygon.
-    polygon := array[4] of {
-        Point(50, 0), Point(100, 50), Point(50, 100), Point(0, 50)
-        };
-
-    image.fillpoly(polygon, 1, display.white, Point(0, 0));
+    # The first argument is implicit because it is declared using self, meaning
+    # that the image instance is substituted, as in Python.
+    image.draw(((10, 10), (90, 90)), background, ctxt.display.opaque, (0, 0));
+    image.fillpoly(points, 1, ctxt.display.white, Point(0, 0));
 }
 
 save_image(image: ref Image, file_name: string)

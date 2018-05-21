@@ -51,6 +51,30 @@ are called with the dot notation:
 
     chans := Chans.mk("R8G8B8");
 
+When a tuple is passed to an ADT its contents are unpacked into the fields
+defined by the ADT, so a Draw->Rect can be instantiated with either of the
+following:
+
+    r1 := Rect(Point(x0, y0), Point(x1, y1));
+    r2 := Rect((x0, y0), (x1, y1));
+
+Since tuples can be passed instead of instances of ADTs and used to instantiate
+new ADTs when necessary, the following variable can be passed into functions
+that expect a Rect:
+
+    r3 := ((x0, y0), (x1, y1));
+
+Arrays can also be defined using tuples to achieve the same purpose. Either of
+the following polygons can be passed to a function expecting an array of Point
+values:
+
+    polygon1 := array[4] of {
+        Point(50, 0), Point(100, 50), Point(50, 100), Point(0, 50)
+        };
+    polygon2 := array[4] of {(50, 0), (100, 50), (50, 100), (0, 50)};
+
+
+
 Case structures
 ---------------
 
@@ -69,7 +93,6 @@ but instead fully qualify it, the compiler fails to find it:
 It prints this:
 
     drawtest.b:84: XRGB32 is not declared
-
 
 Libraries
 ---------
