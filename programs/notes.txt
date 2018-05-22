@@ -30,7 +30,37 @@ It's quite easy to accidentally shadow variables, as in this example:
 The i variable is redefined inside the loop and the variable outside the loop
 is never updated.
 
-Methods and Functions in ADTs
+Accessing members of objects
+----------------------------
+
+Types must be imported if members of their instances need to be accessed.
+For example, the Context type is defined in the Draw module and members of a
+Context object can be accessed if either the type is fully qualified or
+imported. The fully qualified version looks like this:
+
+    include "draw.m";
+        draw: Draw;
+
+    init(ctx: ref Draw->Context, args: list of string)
+    {
+        draw = load Draw Draw->PATH;
+        display := ctx.display;
+
+The imported version allows the ctx argument to be defined more concisely:
+
+    include "draw.m";
+        draw: Draw;
+        Context: import draw;
+
+    init(ctx: ref Context, args: list of string)
+    {
+        draw = load Draw Draw->PATH;
+        display := ctx.display;
+
+However, calling methods on objects requires the type to have been imported.
+This is described in the next section.
+
+Methods and functions in ADTs
 -----------------------------
 
 A function in an abstract data type (ADT) that specifies self in the type

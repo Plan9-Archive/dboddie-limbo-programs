@@ -15,8 +15,8 @@ DrawTest: module
     init: fn(ctxt: ref Draw->Context, args: list of string);
 };
 
-# This example's init function requires a valid context to be passed to it.
-# This means that the window manager must be running for 
+# This example's init function does not require a valid context to be passed to
+# it but it must be run in an environment where a display can be allocated.
 
 init(nil: ref Context, args: list of string)
 {

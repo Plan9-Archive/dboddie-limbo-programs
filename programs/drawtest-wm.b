@@ -8,7 +8,7 @@ include "bufio.m";
     Iobuf: import bufio;
 include "draw.m";
     draw: Draw;
-    Chans, Context, Display, Image, Point, Rect: import draw;
+    Chans, Context, Display, Image: import draw;
 
 DrawTest: module
 {
@@ -42,7 +42,7 @@ init(ctxt: ref Context, args: list of string)
     draw_on_image(ctxt, image);
 
     # Preview the image on the screen.
-    ctxt.display.image.draw(image.r, image, ctxt.display.opaque, Point(0, 0));
+    ctxt.display.image.draw(image.r, image, ctxt.display.opaque, (0, 0));
 
     if (len(args) > 1)
         save_image(image, hd tl args); # args[1]
@@ -60,7 +60,7 @@ draw_on_image(ctxt: ref Context, image: ref Image)
     # The first argument is implicit because it is declared using self, meaning
     # that the image instance is substituted, as in Python.
     image.draw(((10, 10), (90, 90)), background, ctxt.display.opaque, (0, 0));
-    image.fillpoly(points, 1, ctxt.display.white, Point(0, 0));
+    image.fillpoly(points, 1, ctxt.display.white, (0, 0));
 }
 
 save_image(image: ref Image, file_name: string)
@@ -80,7 +80,7 @@ save_image(image: ref Image, file_name: string)
     pixels := array[width * height * bytes_per_pixel] of byte;
     pixel := array[bytes_per_pixel] of byte;
 
-    image.readpixels(Rect(Point(0, 0), Point(width, height)), pixels);
+    image.readpixels(((0, 0), (width, height)), pixels);
 
     # Write the PPM header.
     b := array of byte (
