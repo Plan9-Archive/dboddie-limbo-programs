@@ -1,3 +1,5 @@
+# The updated Hello World example from the Inferno documents.
+
 implement TkHello;
 
 include "sys.m";

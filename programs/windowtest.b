@@ -15,8 +15,6 @@ WindowTest: module
     init: fn(ctx: ref Draw->Context, args: list of string);
 };
 
-displayed := 0;
-
 init(ctx: ref Draw->Context, args: list of string)
 {
     sys = load Sys Sys->PATH;
