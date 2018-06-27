@@ -1,7 +1,11 @@
+# Reads strings sequentially from a spawned process via a channel.
+
 implement Words;
 
+# Import modules to be used and declare any instances that will be accessed
+# globally.
+
 include "sys.m";
-    sys: Sys;
 include "draw.m";
 include "string.m";
     str: String;
@@ -13,15 +17,19 @@ Words: module
 
 init(ctxt: ref Draw->Context, args: list of string)
 {
-    sys = load Sys Sys->PATH;
+    # Load instances of modules, one local to init, the other global.
+    sys := load Sys Sys->PATH;
     str = load String String->PATH;
 
+    # Create a channel for transferring strings and spawn a process to run the
+    # words function, passing the channel to allow communication.
     c := chan of string;
     spawn words(c);
-    s: string;
 
+    # Loop, reading and printing the strings from the channel as they are
+    # received until a nil value is encountered.
     for (;;) {
-        s = <- c;
+        s := <- c;
         if (s == nil) break;
         sys->print("%s ", s);
     }
@@ -34,6 +42,8 @@ words(c: chan of string)
     s := "The quick brown fox jumps over the lazy dog.";
     word : string;
 
+    # Split the string on spaces until there is nothing left, sending each
+    # word to the main process.
     while (s != nil) {
         (word, s) = str->splitl(s, " ");
         c <-= word;

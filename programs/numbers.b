@@ -1,3 +1,5 @@
+# Tests my intuition about chained assignment.
+
 implement Numbers;
 
 include "sys.m";

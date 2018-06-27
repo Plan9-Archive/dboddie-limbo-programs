@@ -1,3 +1,6 @@
+# Shows how to write to stdout using both the sys->fprint function and an I/O
+# buffer.
+
 implement StdoutWriter;
 
 include "draw.m";
@@ -14,6 +17,9 @@ init(ctxt: ref Draw->Context, args: list of string)
     sys := load Sys Sys->PATH;
     bufio := load Bufio Bufio->PATH;
     Iobuf: import bufio;
+
+    # Printing strings is easy with the following function.
+    sys->fprint(sys->fildes(1), "Simple hello.\n");
 
     iobuf: ref Iobuf;
     iobuf = bufio->fopen(sys->fildes(1), Sys->OWRITE);

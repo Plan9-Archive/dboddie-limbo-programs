@@ -1,3 +1,5 @@
+# Implements an empty module.
+
 implement empty;
 
 include "sys.m";

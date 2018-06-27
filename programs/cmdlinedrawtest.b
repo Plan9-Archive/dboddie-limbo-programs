@@ -1,3 +1,6 @@
+# Uses the Draw module to render an image which is exported as a PPM file in
+# the current directory.
+
 implement CmdLineDrawTest;
 
 include "sys.m";
@@ -24,19 +27,24 @@ init(nil: ref Context, args: list of string)
     draw = load Draw Draw->PATH;
     bufio = load Bufio Bufio->PATH;
 
+    # If the user did not specify an output file then print a usage message to
+    # stderr.
     if (len(args) != 2) {
         stderr := sys->fildes(2);
         sys->fprint(stderr, "Usage: %s <output file>\n", hd args);
         exit;
     }
 
+    # Interpret the last string in the argument list as the image file name.
     image_name := hd tl args;
 
+    # Allocate a new display rather than use an existing one.
     display := draw->Display.allocate(nil);
 
+    # Create a rectangle defining the extent of the image.
     rect := Rect(Point(0, 0), Point(100, 100));
     
-    # Create an off-screen image.
+    # Create an off-screen image with the same pixel format as the display.
     image := display.newimage(rect, display.image.chans, 0, Draw->Black);
 
     draw_on_image(display, image);
@@ -63,19 +71,33 @@ draw_on_image(display: ref Display, image: ref Image)
 
 save_image(image: ref Image, file_name: string)
 {
-    iobuf := bufio->create(file_name, Sys->OWRITE, 8r0666);
-    if (iobuf == nil) {
-        sys->print("%r\n");
+    # Note that this only works for displays that use a certain pixel format.
+    if (image.chans.text() != "x8r8g8b8") {
+        stderr := sys->fildes(2);
+        sys->fprint(stderr, "Unhandled display format: %s\n", image.chans.text());
         exit;
     }
 
+    # Create an I/O buffer in order to write to the file with the given name.
+    # If this fails then the error is printed using the special %r format.
+    iobuf := bufio->create(file_name, Sys->OWRITE, 8r0666);
+    if (iobuf == nil) {
+        stderr := sys->fildes(2);
+        sys->fprint(stderr, "%r\n");
+        exit;
+    }
+
+    # Calculate the width, height and depth (in bytes) of the image.
     width := image.r.max.x - image.r.min.x;
     height := image.r.max.y - image.r.min.y;
-
     bytes_per_pixel := image.chans.depth()/8;
+
+    # Allocate a byte array for the entire image as well as an array for a
+    # single pixel.
     pixels := array[width * height * bytes_per_pixel] of byte;
     pixel := array[bytes_per_pixel] of byte;
 
+    # Export the entire image into the array.
     image.readpixels(Rect(Point(0, 0), Point(width, height)), pixels);
 
     # Write the PPM header.
@@ -85,6 +107,7 @@ save_image(image: ref Image, file_name: string)
 
     iobuf.write(b, len(b));
 
+    # Write each pixel in the array to the file using the I/O buffer.
     ptr := 0;
     for (i := 0; i < height; i++) {
         for (j := 0; j < width; j++) {
@@ -97,6 +120,5 @@ save_image(image: ref Image, file_name: string)
             ptr += bytes_per_pixel;
         }
     }
-    iobuf.write(pixels, len(pixels));
     iobuf.close();
 }

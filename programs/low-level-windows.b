@@ -1,3 +1,6 @@
+# Shows how to create windows using the low-level API provided by the Screen
+# ADT in the Draw module.
+
 implement LowLevelWindows;
 
 include "sys.m";

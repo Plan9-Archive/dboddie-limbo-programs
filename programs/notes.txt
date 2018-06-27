@@ -110,7 +110,35 @@ values:
         };
     polygon2 := array[4] of {(50, 0), (100, 50), (50, 100), (0, 50)};
 
+Picks and ADTs
+--------------
 
+A couple of points about "pick ADTs" are not clear (to me) in the Limbo
+reference. First of all, how they are instantiated. Given the following ADT
+
+    Value: adt
+    {
+        pick {
+            Str => words: string;
+        }
+    };
+
+it needs to be instantated with both the name of the ADT and the label that
+corresponds to the type to be stored:
+
+    a := ref Value.Str("Hello");
+    b := ref Value.Int(123);
+
+The label (Str or Int in this example) is user-defined, not some standard type
+defined by the language.
+
+The second point that seems to have been skimmed over is that only references
+can be created. The relevant part of the Limbo reference seems to be this:
+
+  "The identifier and expression given in the pick statement are used to bind
+   a new variable to a pick adt reference expression..."
+
+However, a couple of examples would have been nice.
 
 Case structures
 ---------------
@@ -130,6 +158,40 @@ but instead fully qualify it, the compiler fails to find it:
 It prints this:
 
     drawtest.b:84: XRGB32 is not declared
+
+Exceptions
+----------
+
+In an exception block, the break keyword causes control to break out of the
+exception, not the surrounding block, like a for loop. However, the for loop
+itself can be used as the block being checked for exceptions:
+
+    for (number := 1; number <= 10; number++) {
+        sys->print("Not %d\n", guess(number));
+    } exception ex {
+        found => sys->print("Found secret %d\n", ex); return;
+    }
+
+Functions can be annotated with the raises keyword but this might only be
+required in module declarations.
+
+Polymorphism and parameterised types
+------------------------------------
+
+Another later feature of the language is its support for polymorphism using
+parameterised types which I discovered via Powerman's GitHub repository for his
+replacement HashTable module:
+
+https://github.com/powerman/inferno-contrib-hashtable
+
+An ADT can be defined using parameterised notation in the following way:
+
+
+
+Powerman's Notes about Limbo (https://powerman.name/doc/Inferno/limbo_notes)
+also mention aspects of the language that appear in code found in the appl
+directory of the Inferno distribution.
+
 
 Libraries
 ---------

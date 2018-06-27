@@ -1,10 +1,12 @@
-implement Hello;
+# Tests my intuition about strings, characters and string splitting.
+
+implement Strings;
 
 include "sys.m";
 include "draw.m";
 include "string.m";
 
-Hello: module
+Strings: module
 {
     init: fn(ctxt: ref Draw->Context, args: list of string);
 };
@@ -19,8 +21,9 @@ init(ctxt: ref Draw->Context, args: list of string)
     d : int;
     d = c[1];
 
-    sys->print("%s, %c\n", c, d);
+    sys->print("String: '%s'\nCharacter 1: %d ('%c')\n", c, d, d);
 
+    # Define a string to be split and two strings to hold substrings.
     s := "The quick brown fox jumps over the lazy dog.";
     w, t : string;
 
@@ -30,4 +33,5 @@ init(ctxt: ref Draw->Context, args: list of string)
         if (len(s) > 1)
             s = s[1:];
     }
+    sys->print("\n");
 }

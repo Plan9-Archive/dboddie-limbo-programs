@@ -1,3 +1,8 @@
+# Implements a simple form of inheritance where an instance of a specialised
+# ADT contains an instance of the more general ADT it "inherits" from. Method
+# calls are forwarded to the base implementation before code in the specialised
+# ADT is executed.
+
 implement Inherit;
 
 include "draw.m";

@@ -1,3 +1,5 @@
+# Hello world in Limbo.
+
 implement Hello;
 
 include "sys.m";

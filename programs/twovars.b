@@ -1,3 +1,5 @@
+# Tests my intuition about declaring two variables with the same type.
+
 implement empty;
 
 include "sys.m";

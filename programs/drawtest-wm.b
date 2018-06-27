@@ -1,3 +1,7 @@
+# Draws an image on the display and saves the result to a PPM image, or to
+# stdout if no file name is passed as an argument. Requires the window manager
+# to be running.
+
 implement DrawTest;
 
 include "sys.m";
@@ -101,6 +105,5 @@ save_image(image: ref Image, file_name: string)
             ptr += bytes_per_pixel;
         }
     }
-    iobuf.write(pixels, len(pixels));
     iobuf.close();
 }

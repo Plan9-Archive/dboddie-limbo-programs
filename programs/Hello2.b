@@ -1,3 +1,5 @@
+# Hello world in Limbo with sleep calls.
+
 implement Hello;
 
 include "sys.m";

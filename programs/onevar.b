@@ -1,3 +1,5 @@
+# Tests my intuition about variable definition and assignment.
+
 implement empty;
 
 include "sys.m";

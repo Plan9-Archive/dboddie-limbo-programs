@@ -1,3 +1,5 @@
+# Creates a window using the Wmclient module and draws a Mandelbrot set in it.
+
 implement Mandelbrot;
 
 include "sys.m";

@@ -1,3 +1,5 @@
+# Shows command line arguments.
+
 implement Args;
 
 include "sys.m";

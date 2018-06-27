@@ -1,3 +1,6 @@
+# Shows how to use the Wmclient module to open a window and respond to user
+# input.
+
 implement WindowTest;
 
 include "sys.m";

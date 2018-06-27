@@ -1,3 +1,6 @@
+# Tests my intuition about how arrays are defined and initialised at the same
+# time.
+
 implement Arrays;
 
 include "sys.m";

@@ -1,3 +1,6 @@
+# Tests my intuition about how global variables are defined when they are
+# exported from the module.
+
 implement count;
 
 include "sys.m";

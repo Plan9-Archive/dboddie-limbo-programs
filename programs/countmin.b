@@ -1,3 +1,5 @@
+# A program that performs an empty loop.
+
 implement count;
 
 include "sys.m";

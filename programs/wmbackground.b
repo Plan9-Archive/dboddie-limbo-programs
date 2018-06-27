@@ -1,3 +1,5 @@
+# Shows how to draw on the background image in the window manager.
+
 implement WMBackground;
 
 include "sys.m";

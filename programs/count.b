@@ -1,3 +1,5 @@
+# A simple loop that prints integers from 0 to 19.
+
 implement count;
 
 include "sys.m";

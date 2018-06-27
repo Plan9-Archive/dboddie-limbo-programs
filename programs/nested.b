@@ -1,3 +1,5 @@
+# Simple example of nested loops.
+
 implement count;
 
 include "sys.m";
@@ -11,8 +13,9 @@ count: module
 init(ctxt: ref Draw->Context, args: list of string)
 {
     sys := load Sys Sys->PATH;
-    for (i := 0; i < 123; i++) {
-        for (j := 0; j < 456; j++)
-            sys->print("%d %d\n", i, j);
+    for (i := 1; i < 13; i++) {
+        for (j := 1; j < 13; j++)
+            sys->print("%3d ", i * j);
+        sys->print("\n");
     }
 }
