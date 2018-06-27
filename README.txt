@@ -23,12 +23,23 @@ Getting Started
 Example
 -------
 
-export INFERNO_ROOT=/home/user/inferno-os
-export HOSTED_ROOT=/home/user/hosted
-export SYSHOST=Linux
-export ARCH=386
-export PATH=$INFERNO_ROOT/$SYSHOST/$ARCH/bin:$PATH
+Using the Inferno source directory as the root directory of the environment:
 
-limbo -o $HOSTED_ROOT/tmp/output.dis programs/Hello.b
-emu -r $HOSTED_ROOT -d /tmp/output.dis
+    export INFERNO_ROOT=/home/user/inferno-os
+    export SYSHOST=Linux
+    export ARCH=386
+    export PATH=$INFERNO_ROOT/$SYSHOST/$ARCH/bin:$PATH
+    
+    limbo -o $INFERNO_ROOT/tmp/output.dis programs/Hello.b
+    emu -d /tmp/output.dis
 
+Using a hosted root:
+
+    export INFERNO_ROOT=/home/user/inferno-os
+    export HOSTED_ROOT=/home/user/hosted
+    export SYSHOST=Linux
+    export ARCH=386
+    export PATH=$INFERNO_ROOT/$SYSHOST/$ARCH/bin:$PATH
+    
+    limbo -o $HOSTED_ROOT/tmp/output.dis programs/Hello.b
+    emu -r $HOSTED_ROOT -d /tmp/output.dis
