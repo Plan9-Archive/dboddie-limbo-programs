@@ -51,6 +51,7 @@ init(ctx: ref Draw->Context, args: list of string)
     # Create a public Screen object using the screen image and a background
     # (fill) image.
     screen := Screen.allocate(wmimage, image, 1);
+    # Actually paint the image supplied onto the screen.
     screen.image.draw(screen.image.r, screen.fill, display.opaque, (0,0));
 
     window := screen.newwindow(((10, 10), (410, 310)), Draw->Refbackup, Draw->Grey);
