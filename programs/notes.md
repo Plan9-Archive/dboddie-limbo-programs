@@ -186,18 +186,22 @@ https://github.com/powerman/inferno-contrib-hashtable
 
 An ADT can be defined using parameterised notation in the following way:
 
-
+    Value: adt[T]
+    {
+        value: T;
+        show: fn[T](value: self ref Value);
+    };
 
 Powerman's Notes about Limbo (https://powerman.name/doc/Inferno/limbo_notes)
 also mention aspects of the language that appear in code found in the appl
 directory of the Inferno distribution.
 
 
-Libraries
----------
+Limbo Libraries
+===============
 
 Draw
-~~~~
+----
 
 The draw-image 2 man page is out of date. Images are created with the following
 attributes (from draw.m):
@@ -211,9 +215,18 @@ attributes (from draw.m):
     screen:  ref Screen;    # nil if not window
     iname:   string;
 
+Sys
+---
+
+To use a directory to host files created by sys->file2chan it must first be
+registered using the #s device. This has the effect of stopping file creation
+in the specified directory, so following the convention of using /chan for this
+would seem to be the best thing to do.
+
 
 Standalone emu programs
------------------------
+=======================
 
 Programs that are packaged using my Standalone/package.py in which the host
-file system is unmounted won't be able to write to files.
+file system is unmounted won't be able to write to files. I currently mount the
+directory containing the executable but this isn't ideal.
