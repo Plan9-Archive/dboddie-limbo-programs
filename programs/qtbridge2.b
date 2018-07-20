@@ -61,7 +61,7 @@ Widget.call(w: self ref Widget, method, args: string): string
     return v;
 }
 
-# Main function and 
+# Main function and stream handling functions
 
 init(ctxt: ref Draw->Context, args: list of string)
 {
