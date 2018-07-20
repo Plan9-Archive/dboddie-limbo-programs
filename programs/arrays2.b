@@ -9,8 +9,7 @@
 # You should have received a copy of the CC0 Public Domain Dedication along with
 # this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-# Tests my intuition about how arrays are defined and initialised at the same
-# time.
+# Tests my intuition about how strings are converted to arrays.
 
 implement Arrays2;
 
