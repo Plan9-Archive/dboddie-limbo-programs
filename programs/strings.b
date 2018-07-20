@@ -29,6 +29,7 @@ init(ctxt: ref Draw->Context, args: list of string)
 
     c : string;
     c = "Hello";
+    c += " world!";
     d : int;
     d = c[1];
 
@@ -43,6 +44,17 @@ init(ctxt: ref Draw->Context, args: list of string)
         sys->print("%s ", w);
         if (len(s) > 1)
             s = s[1:];
+    }
+    sys->print("\n");
+    sys->print("The original string is now empty: '%s'\n", s);
+
+    s = "The quick brown fox jumps over the lazy dog.";
+
+    while (s != nil) {
+        (s, w) = str->splitstrr(s, " ");
+        sys->print("%s ", w);
+        if (len(s) > 1)
+            s = s[:len(s) - 1];
     }
     sys->print("\n");
 }
