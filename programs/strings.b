@@ -42,7 +42,7 @@ init(ctxt: ref Draw->Context, args: list of string)
     while (s != nil) {
         (w, s) = str->splitstrl(s, " ");
         sys->print("%s ", w);
-        if (len(s) > 1)
+        if (len(s) > 0)
             s = s[1:];
     }
     sys->print("\n");
@@ -53,7 +53,7 @@ init(ctxt: ref Draw->Context, args: list of string)
     while (s != nil) {
         (s, w) = str->splitstrr(s, " ");
         sys->print("%s ", w);
-        if (len(s) > 1)
+        if (len(s) > 0)
             s = s[:len(s) - 1];
     }
     sys->print("\n");
