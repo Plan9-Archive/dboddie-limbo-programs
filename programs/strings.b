@@ -57,4 +57,12 @@ init(ctxt: ref Draw->Context, args: list of string)
             s = s[:len(s) - 1];
     }
     sys->print("\n");
+
+    s = "No-spaces-in-this-string";
+
+    (w, t) = str->splitstrl(s, " ");
+    sys->print("'%s' '%s' -> '%s' '%s'\n", s, " ", w, t);
+
+    i := 123;
+    sys->print("%d -> %s\n", i, string i);
 }

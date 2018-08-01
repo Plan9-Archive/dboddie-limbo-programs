@@ -12,12 +12,12 @@
 # Tests my intuition about how global variables are defined when they are
 # exported from the module.
 
-implement count;
+implement Globals;
 
 include "sys.m";
 include "draw.m";
 
-count: module
+Globals: module
 {
     init: fn(ctxt: ref Draw->Context, args: list of string);
     abc : int;

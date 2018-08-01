@@ -44,9 +44,9 @@ Widget: adt {
     call: fn(w: self ref Widget, method, args: string): string;
 };
 
-Widget.init(class, name: string): ref Widget
+Widget.init(name, class: string): ref Widget
 {
-    write_ch <-= sprint("create %s %s\n", class, name);
+    write_ch <-= sprint("create 0 %s %s\n", name, class);
     return ref Widget(name);
 }
 
@@ -54,12 +54,12 @@ Widget.call(w: self ref Widget, method, args: string): string
 {
     # Create a channel to use to receive the return value and use the expected
     # response string as a key in the response hash.
-    expected := sprint("value %s %s", w.name, method);
+    expected := "value 1";
     response_ch := chan of string;
     response_hash.add(expected, response_ch);
 
     # Send the call request and receive the response.
-    write_ch <-= sprint("call %s %s %s\n", w.name, method, args);
+    write_ch <-= sprint("call 1 %s %s %s\n", w.name, method, args);
     value := <- response_ch;
 
     # Delete the entry for the response in the response hash.
@@ -85,7 +85,7 @@ init(ctxt: ref Draw->Context, args: list of string)
     spawn reader(read_ch);
     spawn writer(write_ch);
 
-    widget := Widget.init("QLabel", "window");
+    widget := Widget.init("window", "QLabel");
     widget.call("setText", "\"Hello world!\"");
     widget.call("show", "");
     width := int widget.call("width", "");
@@ -118,12 +118,12 @@ reader(read_ch: chan of string)
         if (len current > 0)
             current = current[1:];
 
-        # Remove the first three words from the value string ("value", <name>,
-        # "method") and return the rest as a value.
+        # Remove the first two words from the value string ("value", <id>) and
+        # return the rest as a value.
         i := n := 0;
         w : string;
 
-        while (i < len value_str && n < 3) {
+        while (i < len value_str && n < 2) {
             if (value_str[i:i + 1] == " ")
                 n++;
             i++;

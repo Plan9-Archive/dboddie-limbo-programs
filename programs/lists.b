@@ -43,6 +43,10 @@ init(ctxt: ref Draw->Context, args: list of string)
         sys->print("%s ", hd sl);
 
     sys->print("\n");
+
+    l = 1::
+        2::
+        3::nil;
 }
 
 split(s, c: string): list of string
